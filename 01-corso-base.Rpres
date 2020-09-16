@@ -1,0 +1,989 @@
+Corso base R - parte prima
+========================================================
+author: Dott.ssa Arianna Orasi - Dott.Raffaele Morelli - Dott. Marco Picone
+date: 
+width: 1300
+height: 800
+font-family: 'Serif'
+
+Cos è R
+========================================================
+R è un linguaggio ed un ambiente per il calcolo statistico e la grafica. R offre un'ampia varietà di tecniche statistiche e grafiche ed è altamente estensibile.
+
+Uno dei punti di forza di R è la facilità con cui è possibile produrre pubblicazioni di qualità e ben progettate che comprendono anche simboli matematici e formule dove necessario.
+
+R è una suite integrata di funzioni software per la manipolazione dei dati, il calcolo e la visualizzazione grafica. Include:
+- un'efficace sistema di gestione e memorizzazione dei dati,
+- un insieme di operatori per calcoli su vettori, in particolare matrici,
+- una vasta, coerente ed integrata raccolta di strumenti intermedi per l'analisi dei dati,
+- strutture grafiche per l'analisi dei dati e visualizzazione su schermo o su carta 
+- un linguaggio di programmazione ben sviluppato, semplice ed efficace che include struttre condizionali, cicli, funzioni ricorsive definite dall'utente e strutture di input ed output.
+
+
+Perché R?
+==========================================================
+R è un software *open source* (sotto i termini della *GNU General Public License* della *Free Software Foundation*), quindi:
+- Consente ad ogni utente di accedere al codice, correggere i *bug* ed estendere il software
+- Ha alle spalle una vasta comunità di utilizzatori/sviluppatori
+- Ha una serie di forum di confronto per l'esplorazione dei metodi di analisi dei dati
+- Comunica con una di strumenti *open source* ma anche  *closed*
+- La maggior parte di R è scritta in ... R, quindi è facile da interpretare per chi conosce ... R
+- R è utilizzabile sui maggiori sistemi operativi (Windows, Macintosh, Linux)
+- Viene continuamente aggiornato ed esistono più di 14000 librerie (!!!)
+- Lo sviluppo continuo garantisce molte funzioni aggiornata tali da renderlo molto più completo di altri software simili (SPSS e SAS) e secondo (???) solo a MATLAB per l'aspetto di visualizzazione grafica dei dati
+
+Installazione R ed R Studio
+========================================================
+
+Per utilizzare al meglio R è consigliabile installare un ambiente come RStudio per avere un'interfaccia avanzata e sfruttare al meglio tutti i vantaggi che mette a disposizione.
+
+RStudio fornisce un editor con evidenziazione della sintassi, una console che supporta l'esecuzione diretta del codice ed una varietà di strumenti per la gestione dell'area di lavoro.
+
+R ed RStudio sono Free Software quindi non è necessario pagare per il download.
+**Prima di installare RStudio occorre avere installato R.**
+
+I siti di riferimento:
+- http://www.r-project.org/
+- https://cran.r-project.org/
+
+Un ambiente di sviluppo maggiormente intuitivo rispetto alla versione base fornita dalla comunità CRAN può essere scaricata al sito (licenza open source e commerciale)
+- https://www.rstudio.com/
+
+
+Ambiente di lavoro
+========================================================
+
+Per mantenere le cose *in ordine* per ogni progetto è necessario creare una cartella (working directory) ed organizzare i file (dati o script) in modo ordinato.
+
+Se già esiste una directory che volete utilizzare allora:  "Session" -> "Set Working Directory" -> "Choose directory" per impostare la directory di lavoro desiderata.
+
+
+Console ed editor
+========================================================
+
+```{r}
+4 + 2 # questo è un commento, dopo il carattere # nulla viene eseguito
+
+x <- 34   # assegnazione variabile
+y <- 16
+z <- x + y  # somma
+w <- y/x    # rapporto
+
+x   # controlliamo il contenuto delle variabili "x" e "w" semplicemente digitandone i nomi + "Invio"
+w
+```
+
+Console ed editor
+========================================================
+
+In R possiamo salvare quel che facciamo per poi utilizzarlo in un secondo momento per riprodurre i passaggi che hanno portato ad un certo risultato.
+
+```{r, eval=FALSE}
+x <- 'una stringa'
+x
+
+# salviamo la cronologia dei comandi
+savehistory(file = "Cronologia.Rhistory")
+
+# Oppure File > Salva Cronologia
+
+loadhistory(file = "Cronologia.Rhistory") # carichiamo la cronologia dei comandi
+# Oppure File > Carica Cronologia
+```
+
+Utilizzo console ed editor
+====================================================
+
+Per scrivere i comandi (o interi blocchi di codice) utilizziamo l'editor incluso in RStudio. I comandi possono essere eseguiti uno alla volta o insieme.
+
+L'estensione tipica di uno script è `.R` anche se si tratta di un comunissimo file di testo e nulla ci vieta di usare un file scritto con un blocco note o altro editor, purché sia privo di qualsiasi formattazzione (sia un txt contente solo caratteri ASCII)
+
+Per eseguire comandi:
+- Copiare ed incollare uno o più comandi nella console
+- Posizionare il cursore in corrispondenza del comando da eseguire e premere `Ctrl + R`
+- Selezionare i comandi da eseguire e premere `Ctrl + R`
+
+Console ed editor hanno una funzionalità di autocompletamento che consente di scrivere codice in modo molto veloce ed efficace (evita molti errori di digitazione). Iniziando a digitare un comando o il nome di un oggetto ci viene immediatamente proposta una lista di vocaboli da utilizzare per completare la digitazione.
+
+Utilizzo console ed editor
+====================================================
+La console si utilizza direttamente per esplorare i dati, per fare dei test, per eseguire comandi esplorativi veloci. Non necessita di commenti e la cronologia dei comandi eseguiti viene salvata in un file di sistema (`.Rhistory`) che abbiamo a disposizione in ogni sessione.
+
+L'editor si utilizza per eseguire più comandi in sequenza salvati in un file (uno *script*) che è opportuno commentare (per avere memoria di cosa facciamo in un particolare punto della sequenza).
+
+```{r}
+# questo è un commento
+# tutto ciò che segue il carattere # non viene inteso come codice da eseguire
+x <- 'Pippo'    # il migliore amico di Topolino
+y <- 123456789  # la password più stupida 
+```
+
+
+Uno script può includere uno o più script
+
+`source('script-da-includere.R')`) 
+
+e contribuire alla creazione di uno script *principale*.
+
+Directory di lavoro
+====================================================
+Utile quando si lavora con file di qualsiasi tipo che si trovano sul pc o che si devono scrivere su pc (cronologie, script, file dati di input o di output)
+
+Per definire o cambiare la directory di lavoro *Sessione > Imposta directory di lavoro*
+
+Oppure dalla console
+
+```{r, eval=FALSE}
+setwd("C:/job")
+```
+
+!!! slash al posto di backslash
+
+```{r, eval=FALSE}
+# Per conoscere la directory di lavoro attuale
+getwd()
+```
+
+
+Guida in linea
+======================================================
+Dal menù aiuto (help) è possibile raggiungere degli ottimi manuali (inglese) o la guida html (anche da console digitando `help.start()` )
+
+Per conoscere la sintassi di un comando (es. getwd)
+
+```{r, eval=FALSE}
+help(getwd)
+?getwd
+```
+
+Oppure dal menù *Aiuto > cerca nella guida*
+
+Informazioni sintetiche sui comandi
+======================================================
+
+```{r, eval=FALSE}
+getAnywhere(x) # restituisce tutte le informazioni possibili su un qualsiasi oggetto (comandi, variabili, ...)
+
+example(getwd)
+
+example(ls)
+```
+
+Se non si sa che comando utilizzare
+
+```{r, eval=FALSE}
+
+help.search('working directory')
+??'working directory'
+```
+
+Il **miglior modo** per risolvere problemi è cercare con un qualsiasi motore di ricerca la risposta al quesito proponendola in inglese insieme alle parole magiche 'R help'.
+
+Ci sono *stackexchange* e *stackoverflow* per aiuti da altri utenti della *comunity*:
+
+- https://stats.stackexchange.com/questions/tagged/r
+- https://stackoverflow.com/questions/tagged/r
+
+
+Area di lavoro (workspace)
+===========================================================
+
+L'area di lavoro include tutti gli oggetti definiti dall'utente, gli script non sono oggetti ed il salvataggio dello script non comporta il salvataggio degli oggetti.
+
+Gli oggetti vengono creati con i comandi (a prescindere che questi siano eseguiti da uno script o dalla console) che assegnano direttamente dei valori a delle variabili o implementano funzioni.
+
+Il *workspace* può essere salvato in un formato proprio di R che ha estensione `.Rdata` attraverso i comandi `save` e `save.image`:
+
+```{r, eval=FALSE}
+save(A,B,C, file = 'workspace.Rdata')   # salva alcuni oggetti
+save.image(file = 'workspace.Rdata')    # salva TUTTI gli oggetti creati
+```
+
+in pratica `save.image` è una scorciatoia per `save(list = ls(all.names =TRUE))`
+
+Il workspace salvato può essere richiamato attraverso il comando `load(file = 'workspace.Rdata')` oppure trascinando il file direttamente nella console. Il doppio click sul file `.Rdata` apre una nuova sessione, carica il workspace ed imposta la directory di lavoro.
+
+Alcuni comandi utili
+===========================================================
+
+```{r, eval=FALSE}
+<-    # Assegnazione di oggetti da destra a sinistra 'Alt + -'
+  
+->    # Assegnazione di oggetti da sinistra a destra
+  
+ls()  # Lista degli oggetti
+
+rm()  # Rimuove oggetti
+
+fix() # Editor di testo per la navigazione di un oggetto
+
+q()   # Termina la sessione di R
+
+```
+
+Dati
+=============================================================
+
+Molti dati sono contenuti in file il cui contenuto può essere letto ed importato da/in R.
+
+R legge pressoché tutti i formati di file, dai più comuni e semplici (file di testo) ai file prodotti da software come Excel o GIS fino alla connessione diretta a tutti i tipi di database.
+
+Per leggere i formati testuali possiamo utilizzare il comando `read.table` (ma ve ne sono molti altri per esigenze specifiche, ad es. `read.csv` o `read.delim`)
+
+Le istruzioni di lettura sono molto versatili e modellabili in base alla formattazione del file di input. Per vedere tutte le opzioni basta osservare l'help dei vari comandi.
+
+Librerie/pacchetti
+==============================================================
+R carica all'avvio un set limitato di librerie che consento di effettuare la maggior parte di analisi e manipolazioni standard. Per conoscere le librerie caricate basta digitare `search()`
+
+Potrebbe essere necessario caricare ulteriori librerie (o scrivere funzioni proprie) e le librerie installate si richiamano con il comando `library()`
+
+```{r, eval=FALSE}
+library(ggplot2)
+```
+
+Le librerie non presenti devono essere installate (una sola volta):
+
+*Strumenti > installa pacchetti > selezionare un mirror > selezionare la libreria desiderata*
+
+Da console attraverso:
+```{r, eval=FALSE}
+install.packages("ggplot2")
+```
+Le librerie presenti nei repository cran sono ben documentate e aggiornate
+
+Scrittura dati su file
+==========================================================
+
+E' possibile esportare i risultati in numerosi formati (Tutti i possibili formati)
+Un file in formato testuale può essere creato tramite il comando `write.table` o `write.csv`
+
+```{r, eval=FALSE}
+?write.table
+
+# write table, analogamente a read.table è una funzione
+write.table(x, file = "", append = FALSE, quote = TRUE, sep = " ",
+            eol = "\n", na = "NA", dec = ".", row.names = TRUE,
+            col.names = TRUE, qmethod = c("escape", "double"),
+            fileEncoding = "")
+
+?write.csv
+write.table(x, file = "", append = FALSE, quote = TRUE, sep = " ",
+            eol = "\n", na = "NA", dec = ".", row.names = TRUE,
+            col.names = TRUE, qmethod = c("escape", "double"),
+            fileEncoding = "")
+```
+
+Funzioni
+=============================================================
+
+Il concetto di funzione nei linguaggi di programmazione è del tutto simile a quello matematico: $$y = f(x) $$
+
+Se $f$ è la funzione quadratica allora $y = x^2$, quindi per $x=4$ avremo $16 = 4^2$.
+
+In R le funzioni sono una sequenza di istruzioni che espletano una determinata elaborazione che a partire da uno o più input restisce uno o più output. In R le funzioni vengono create in questo modo
+
+```{r, eval=FALSE}
+nomefunzione <- function(arg1, arg2, ...) {
+  # sequenza di istruzioni
+  # ...
+  return(out1, out2, ...) # valori restituiti
+}
+```
+
+Funzioni
+=============================================================
+Scriviamo una funzione che calcola il quadrato di un numero che passiamo come argomento.
+
+```{r}
+# altrettanto banalmente la chiamiamo ...
+quadrato <- function(n) {
+  return(n*n)
+}
+
+quadrato(13) # invochiamo la nostra funzione con argomento 13
+quadrato(9)
+
+```
+
+Funzioni con più argomenti/parametri
+=============================================================
+Ma noi puntiamo alla *medaglia Fields*... :-))) 
+
+```{r}
+# esponenziale
+esponenziale <- function(n, x) {
+  return(n^x) # il simbolo ^ è l'elevamento a potenza
+}
+
+esponenziale(2, 8) # 2 all'ottava
+```
+
+
+
+IF-ELSE
+=================================================================
+
+```{r, eval=FALSE}
+
+# Nel caso di eventi dipendenti da una condizione
+if (condition) {
+  Expr1
+} else {
+  Expr2
+}
+
+# o in caso di più condizioni
+if (condition1) {
+  [...]
+} else if (condition2) {
+  [...]
+} else if (condition3) {
+  [...]
+} else {
+  [...]
+}
+```
+
+```{r}
+# ESEMPIO
+if (z <- sample(1:10, 1) > 5) {
+  cat(z, 'Y') # cat è un comando che concatena e stampa oggetti
+}else{
+  cat(z, 'N')
+}
+```
+
+FOR e WHILE
+=================================================================
+
+```{r, eval=FALSE}
+# Nel caso di operazioni da ripetere n volte
+for (i in vector) {
+  [...]
+}
+```
+
+```{r}
+# ESEMPIO
+for(i in c(1, 3, 5, 7)) {
+  cat(i^2, "--") #
+}
+```
+
+
+```{r, eval=FALSE}
+# o da ripetere finchè non si raggiunge una condizione di uscita dal ciclo
+while (condition) {
+  [...]
+}
+```
+
+
+=================================================================
+
+```{r}
+x <- 4
+y <- c(6, 4, 5)
+z <- c(2, 5)
+x*y
+
+x*y*z # !!! R si districa nei modi più improbabili
+```
+
+========================================================
+```{r}
+a <- matrix(1:9, nrow = 3, ncol = 3) # oppure seq(1,9, by = 1) anziché 1:9
+a
+```
+
+Prodotti vettoriali
+
+```{r}
+y*y
+
+y^2 # quadrato dei singoli elementi
+```
+
+====================
+Prodotto scalare
+
+```{r}
+
+y <- c(1, 2, 3, 4) # 1x1 + 2x2 + 3x3 + 4x4
+t(y) %*% y
+```
+
+Alcuni comandi
+=================================================================
+
+```{r, eval=FALSE}
+<-        # assegnazione
+c         # concatenazione di elementi
+ls()      # fornisce l'elenco degli oggetti presenti nel workspace
+str()     # fornisce una serie minima di informazioni su un oggetto
+t         # trasposta 
+* +       # Prodotto Somma 
+- / ^     # Differenza Divisione Potenza
+%*%       # Prodotto vettoriale
+matrix    # per creare una matrice
+: seq     # sequenza di numeri da....a....
+#         # per commentare
+```
+
+Accedere agli elementi di un vettore o di una matrice
+=================================================================
+
+```{r}
+V <- -3:8
+V
+A <- matrix (V, 2,4)
+A
+
+```
+
+Accedere agli elementi di un vettore o di una matrice
+=================================================================
+
+```{r}
+V[3]
+
+A[2,3]
+```
+
+===================================
+
+```{r}
+A[2,]
+
+A[,3]
+
+# which() cercare elementi all'interno d un vettore (restituisce gli indici!) R:
+which( V < 3)
+```
+
+Operatori logici
+=================================================================
+- & Operatore logico 'and'
+- | Operatore logico 'or'
+- == Operatore logico 'equal to'
+- != Operatore logico 'not equal to'
+
+=================================================================
+```{r}
+which( (V >= 2) & (V < 4) )
+which( (V < 2) | (V > 5) )
+which(V == 6)
+which(V != 7)
+
+z <- which(V < 3) # per ottenere i valori 
+V[z]
+# oppure
+V[which(V < 3)]
+```
+
+Alcuni comandi
+=================================================================
+
+```{r, eval=FALSE}
+[i,j] # Selezione di un elemento di posto i,j di una matrice/data frame
+
+[i]   # Selezione di un elemento di posto i di un vettore
+
+which # Selezione di un elemento tramite indice di posizione
+
+&     # 'and' 
+
+|     # 'or' 
+
+==    # 'equal to' 
+
+!=    # 'not equal to'
+```
+
+
+Le classi di oggetti
+=================================================================
+
+Ogni cosa in R è un oggetto e ogni oggetto appartiene ad una classe. Ogni oggetto deve essere nominato con una sequenze di lettere e numeri (non si inizia con un
+numero però!)
+
+- `character`: stringhe o sequenze di caratteri
+- `numeric` : numeri reali (doppia precisione)
+- `integer`: numeri interi (con segno)
+- `logical`: TRUE, FALSE, NA
+- `complex`: numeri complessi
+- `factor`: dati qualitativi su scala nominale e ordinale (ordered=TRUE)
+- `list`: contenitori di oggetti diversi
+
+==============================================================
+```{r}
+cmp <- complex(real = 1:10, imaginary = -1:9)
+cmp
+
+nomi <- c('Jimi', 'Jeff', 'Jimmy')
+nomi
+
+lo <- c(TRUE, FALSE, FALSE, TRUE)
+lo
+
+A <- matrix(5, 4, 2)
+A
+```
+
+Liste
+=================================
+```{r}
+lis <-list(COM = cmp, NOM = nomi, LO = lo, MAT = A) # (prova ad usare il comando str)
+
+# Per accedere agli elementi di una lista si usa $
+lis$NOM
+
+# oppure [[ ]]
+lis[[3]]
+
+# Per accedere agli elementi degli elementi di una lista
+lis$COM[1]
+
+```
+
+
+Alcuni comandi
+=================================================================
+
+```{r, eval=FALSE}
+
+character # Crea un vettore per oggetti di tipo carattere
+
+numeric   # Crea un vettore per oggetti di tipo numerico
+
+integer   # Crea un vettore per oggetti di tipo interi
+
+logical   # Crea un vettore per oggetti di tipo logico
+
+complex   # Crea un vettore per oggetti di tipo complessi
+
+factor    # Crea un vettore per oggetti di tipo qualitativi
+
+list      # Crea un vettore per oggetti di diverso tipo
+
+$ [[ ]]   # Selezione elementi all'interno di una lista
+```
+
+
+Dataframe (dati strutturati)
+==================================================
+
+Un dataframe può contenere dati di natura diversa, ad esempio dati qualitativi e dati quantitatitvi.
+
+```{r}
+# x <- scan() # ed inserisco a mano 10 valori
+x <- seq(1, 20, by = 4)
+
+y <- 1:4
+
+y <- sample(y, 10, replace=T)
+
+y <- factor(y)
+
+levels(y) <- c('N', 'C', 'V', 'S')
+
+dati <- data.frame(X = x, Y = y)
+dati
+```
+
+Accesso ai dati
+==========================================
+I dati contenuti in un dataframe sono accessibili utilizzando gli indici di riga e colonna oppure i nomi delle variabili
+
+```{r}
+dati$X    # Per richiamare i valori della colonna X
+dati[,1]  # oppure con un indice numerico
+dati[, c("Y")]
+
+dati[2,]  # la seconda riga
+
+dati[2,1] # 
+
+# provare l'autocompletamento
+```
+
+Informazioni
+==========================================
+```{r}
+dim(dati)   # per conoscere la dimensione del dataframe
+nrow(dati)  # numero di righe
+ncol(dati)  # numero di colonne
+colnames(dati)
+rownames(dati)
+```
+
+Sintesi dei comandi R
+==========================================
+
+```{r, eval=FALSE}
+data.frame  # Assembla oggetti di differente natura in una matrice
+
+scan        # Inserire valori numerici
+
+sample      # Crea un campione casuale
+
+levels      # Definisce gli attribuiti di una variabile qualitativa
+```
+
+
+Distribuzione di frequenza
+==========================================
+
+Dato un fenomeno $Y$ oggetto di studio, se indichiamo con $y_{i}$ i valori assunti nel campione e con $n_{i}$ la frequenza del valore $y_{i}$ nel campione allora l'insieme dato dalle coppie di valori $$\{ ({y_{i}, n_{i}), i=1,2,...,k}\}$$ si chiama distribuzione di frequenza
+
+```{r}
+x <- 1:4
+y <- sample(x, 10, replace = T)  # 10 valori casuali estratti dal vettore x (che contiene valori tra 1 e 4)
+y <- factor(y)  # trasformiamo y in un vettore  di categorie
+levels(y) <- c('A', 'B', 'C', 'D')  # impostiamo gli attributi
+y
+```
+
+===========================
+```{r}
+table(y) # così otteniamo le frequenze assolute
+
+table(y)/length(y)*100 # così otteniamo le percentuali
+
+cumsum(table(y)/length(y)*100) # così otteniamo le frequenze cumulate
+```
+
+Alcuni comandi
+===================================
+
+```{r, eval=FALSE}
+table   # Crea risultati in forma tabellare di variabili categoriali
+
+length  # Lunghezza di un vettore
+
+cumsum  # Effettua le somme cumulate degli elementi di un vettore
+```
+
+Grafici base
+=================================================================
+
+Il comando più semplice ed immediato per realizzare i grafici più comuni è `plot`
+
+```{r, fig.align='center'}
+df <- sample(1:100, 30, replace = TRUE)
+plot(df)
+```
+
+Grafici base
+=================================================================
+ma possiamo aumentare la complessità a piacimento
+
+```{r, fig.align='center'}
+plot( df, xlab = "Etichetta ascisse", ylab = "N", col = "red", 
+      main = "Titolo", sub = "Grafico con sottotitolo" )
+```
+
+Grafici base
+=================================================================
+ma anche istogrammi.
+
+```{r, fig.align='center'}
+df <- sample(1900:2019, 500, replace = TRUE)
+hist(df, xlab = "Anno", ylab = "N", col = "violetred", main = "Anno di nascita")
+```
+
+=================================================================
+
+con l'argomento `freq=FALSE` mostriamo la frequenza relativa (valore percentuale) anziché assoluta.
+
+```{r, fig.align='center'}
+hist(df, xlab = "Anno", ylab = "N", col = "violetred", main = "Anno di nascita", freq=FALSE)
+```
+
+Grafici - Fenomeni qualitativi
+============================================
+
+Diagramma a torta (*thumb down*): 1 modalità=1 settore circolare la cui ampiezza è proporzionale alla frequenza
+
+```{r, fig.width=10, fig.height=6, fig.show='hold'}
+pie(table(y))
+pie(table(y), density=10, angle=15 + 10 * (1:4))
+```
+
+
+Grafici - Fenomeni qualitativi
+============================================
+
+```{r, fig.align='center'}
+z <- sample(0:5, 20, replace = TRUE)
+
+plot(table(z))
+```
+
+Grafici - Fenomeni quantitativi continui
+============================================
+
+```{r , fig.width=10, fig.height=6, fig.show='hold'}
+w <- sample(70:99, 30, replace = TRUE)
+
+hist(w, main='Sturges')
+hist(w, breaks='Scott',main='Scott')
+```
+
+Grafici - Fenomeni quantitativi continui
+============================================
+```{r, fig.width=10, fig.height=6, fig.show='hold'}
+w <- sample(40:90, 30, replace = TRUE)
+
+hist(w, breaks='FD',main='Freedman-Diaconis')
+hist(w, breaks=c(40,50,58,70,95),main='estremi delle classi')
+```
+
+Alcuni comandi
+=========================
+
+```{r, eval=FALSE}
+pie     # Rappresenta diagrammi a torta
+
+plot    # Rappresenta fenomeni quantitativi
+
+hist    # Rappresenta fenomeni quantitativi in classi con istogrammi
+```
+
+
+Quantili di una distribuzione ordinata
+=========================
+
+```{r}
+median(c(4,3,4,1,7)) 
+median(c(4,3,1,7))
+
+w <- sample(1:500, 20)
+quantile(w) 
+quantile(w, probs=c(0.3,0.72)) 
+```
+
+Media, minimo e massimo
+=========================
+
+```{r}
+mean(w)
+mean(w, trim = 0.1)
+# trim è un numero compreso tra 0 e 0.5 e consiste nella proporzione di osservazioni che viene scartata da ciascuna coda calcolare la media
+min(w) 
+max(w) 
+range(w) # il campo di variazione
+```
+
+Sommari
+========================
+```{r}
+summary(w)
+library(psych)
+# describe(w)
+describe(mtcars[1:4]) # le prime 4 variabili del data set di esempio mtcars
+```
+
+Boxplot
+============================
+
+È un metodo per raffigure graficamente gruppi di dati numerici attraverso i loro quartili (quantili 0.25, 50, 0.75).
+
+```{r, fig.align='center'}
+# boxplot(w)
+boxplot(w, range = 0.5)
+```
+
+Suggerimento!!! Se entriamo in possesso di un dataset di cui non conosciamo completamente la natura è molto utile utilizzare i due comandi str() e summary() che ci fornisce indicazioni sulla natura dei dati e sulle statistiche di principale interesse.
+
+Riepilogo
+============================
+
+|Indice|Carattere qualitativo|Carattere qualitativo ordinale|Carattere quantitativo|
+|---|---|---|---|---|
+|Moda|SI| SI| SI|
+|Mediana| NO| SI| SI|
+|Quartili| NO| SI| SI|
+|Boxplot| NO| NO| SI|
+|Media| NO| NO| SI|
+|Range| NO| NO| SI|
+
+Alcuni comandi
+=================================
+|||
+|---|---|
+|median| Calcola la mediana|
+|quantile| Calcola i quantili|
+|min| Calcola il minimo|
+|max| Calcola il massimo|
+|range| Calcola il campo di variazione|
+|mean| Calcola la media|
+|summary| Sommario delle statistiche principali|
+|boxplot| Grafico dei quartili|
+
+La dispersione
+===============================
+Per valutare la variabilità all'interno dei dati
+
+```{r, fig.width=6, fig.height=4}
+x <- c(rep(1,5), rep(2,10), rep(3,20), rep(4,30), rep(5,20), rep(6,10), rep(7,5))
+y <- c(rep(1,15), rep(2,20), rep(3,15), rep(5,15), rep(6,20), rep(7,15))
+
+```
+
+```{r}
+summary(x)
+summary(y)
+```
+
+===============================
+
+```{r, fig.width=8, fig.height=6, fig.show='hold'}
+plot(table(x),ylab='freq',lwd=10)
+plot(table(y),ylab='freq',lwd=10)
+```
+
+===================================
+Per valutare la variabilità all'interno dei dati
+
+```{r}
+var(x) 
+var(y) 
+sd(x) 
+sd(y) 
+cv <- sd(x)/abs(mean(x)) # Coefficiente di variazione
+```
+
+===================================
+
+```{r, fig.width=7, fig.height=7, fig.show='hold'}
+boxplot(x) 
+boxplot(x, range = 0.75) 
+```
+
+
+Sintesi dei comandi R
+=========================
+
+|||
+|---|---|
+|var| Calcola la varianza campionaria|
+|sd| Calcola la deviazione standard|
+|rep| Ripete un numero per un certo numero di volte|
+
+
+Stima della densità
+=========================
+
+Costruire una curva che approssimi il più possibile la vera distribuzione di frequenza (continua) dei dati(metodo kernel)
+
+```{r, fig.width=6, fig.height=6, fig.show='hold', fig.align='center'}
+w <- sample(40:100, 50, replace = TRUE)
+hist(w, breaks = c(40, 50, 58, 70, 95, 100))
+lines(density(w), lty = 3)
+```
+
+=========================
+```{r, fig.width=6, fig.height=6, fig.show='hold', fig.align='center'}
+
+# Variamo la bandwidth:
+plot(density(w), main='Stima della densité', xlab = 'w', ylim = c(0, 0.03))
+lines(density(w, bw=20), lty=3)
+lines(density(w, bw=3), lty=5)
+legend(80, 0.025, c('bw=ottimale','bw=20','bw=3'),lty = c(1,3,5))
+```
+
+Sintesi dei comandi R
+==========================
+
+|||
+|---|---|---|
+|density| Stima la funzione di densité con il metodo kernel|
+|lines| Per rappresentare linee|
+|legend| Per aggiungere la legenda ad un grafico
+
+
+Relazioni tra variabili
+===========================
+Tabelle di contingenza
+
+```{r}
+tab <- matrix(c(1,1,2,3,3,1,0,2,2),3,3) 
+
+rownames(tab) <- c('A','B','C')
+colnames(tab) <- c('D','E','F')
+margin.table(tab,1)
+# oppure rowSums(tab) distribuzione marginale delle righe
+
+margin.table(tab,2)
+# oppure colSums(tab) distribuzione marginale delle colonne
+
+```
+
+Relazioni tra variabili
+===========================
+Tabelle di contingenza
+```{r}
+prop.table(tab)   # Distribuzione doppia relativa
+prop.table(tab,1) # Distribuzioni marginali relative rispetto alle righe
+prop.table(tab,2) # Distribuzioni marginali relative rispetto alle colonne
+```
+
+Sintesi dei comandi R
+===========================
+|||
+|---|---|---|
+|margin.table |somma delle righe o delle colonne di una matrice di contingenza|
+|rowSums| somma delle righe di una matrice di contingenza|
+|colSums| somma delle colonne di una matrice di contingenza|
+|prop.table| Esprime la tabella come frazione della tabella marginale|
+|rownames| Assegna nomi alle righe di una matrice|
+|colnames| Assegna nomi alle colonne di una matrice|
+
+Relazioni tra variabili quantitative: grafico di dispersione (scatterplot)
+======================================================
+
+Due fenomeni x e Y xi tipo quantitativo. Su n individui abbiamo raccolti le coppie di valori $(x_{i}, y_{i})$
+```{r}
+x <- c(2, 3, 4, 2, 5, 4, 5, 3, 4, 1)
+y <- c(5, 4, 3, 6, 2, 5, 3, 5, 3, 3)
+plot(x, y)
+
+```
+
+Relazioni tra variabili quantitative: grafico di dispersione (scatterplot)
+======================================================
+```{r, fig.align='center'}
+plot(x,y, axes=F)
+axis(1, c(mean(x), 0:6), c(expression(bar(x)), 0:6))
+axis(2, c(mean(y), 0:6), c(expression(bar(y)), 0:6))
+box()
+lines(c(2, 2, 0), c(0, 5, 5), lty= 2)
+points(2, 5, pch= 3, cex= 3, col= 'red', lty= 2)
+lines(c(3.3, 3.3, 0), c(0, 3.9, 3.9), lty= 3)
+text(3.6, 3.9, expression((list(bar(x)[n], bar(y)[n]))))
+points(mean(x), mean(y), pch= 4, cex= 3, col= 'red')
+```
+
+Covarianza
+==========================
+```{r}
+x
+y
+cov(x,y) [1] -0.8555556
+cor(x,y) [1] -0.4971468
+```
+
+Alcuni comandi
+===========================
+||||
+|---|---|---|
+|axis |Aggiunge un asse su un plot esistente|
+|box| Aggiunge una box attorno al plot corrente|
+|points |Aggiunge simboli presso specifiche coordinate|
+|text |Aggiunge testo presso specifiche coordinate|
+|expression |Introduce notazione matematica in un grafico|
+|cov| Calcola l'indice di covarianza|
+|cor| Calcola il coefficiente di correlazione lineare|
+

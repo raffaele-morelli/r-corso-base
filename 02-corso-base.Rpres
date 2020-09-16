@@ -1,0 +1,302 @@
+Corso base R - parte seconda
+========================================================
+author: Dott.ssa Arianna Orasi - Dott.Raffaele Morelli - Dott. Marco Picone
+css: custom.css
+date: 
+width: 1900
+height: 800
+font-family: 'Serif'
+
+La gestione dei file
+========================================================
+consente diverse operazioni sui file e directory in locale tramite le funzioni `file.*`
+- `file.create()` crea file
+- `file.exists()` verifica l’esistenza di un file
+- `file.remove()`, `file.rename()` rimuovere o rinominare un file
+- `file.append()`, `file.copy()` aggiunge il contenuto di un secondo file in coda al primo, copiare un file
+- `file.info()` restituisce le principali informazioni
+- `dir.create()`, `dir.exists()` crea una directory o verifica l’esistenza
+
+Restituisce la lista completa dei file e directory presenti su di un determinato percorso (estremamente utile quando si ha una directory con diversi fiel di input che devono essere letti) attraverso `list.files()` e `list.dirs()`
+
+E’ possibile scaricare file da indirizzi http e ftp noti attraverso `download.file()`
+
+
+Manipolazione delle stringhe
+==========================================================
+R tende a definire `factor` tutto ciò che non è numerico. 
+Se si vuole leggere una informazione come stringa è opportuno utilizzare il parametro `stringsAsFactor = FALSE` nelle istruzioni di lettura, oppure trasformare i factor in stringhe attraverso `as.character()`
+
+Lavorare con le stringhe è essere utile soprattutto per la gestione dei file, dei metadati e delle date.
+
+Principali funzioni utili alla gestione delle stringhe 
+- `nchar()` conta il numero di caratteri in una stringa
+- `paste()` concatena stringhe
+- `substring()` o `substr()` estrae una porzione di stringa
+- `gsub()` sostituisce gruppi di caratteri con altri all’interno di una stringa
+- `tolower()`, `toupper()` trasforma la stringa utilizzando sole lettere minuscole o sole lettere maiuscole
+- `strsplit()` divide una stringa quando trova determinati caratteri
+
+Date e tempi
+========================================================
+
+Le date (e i tempi) costituiscono un oggetto diverso dagli altri perché sembrano stringhe, ma possono essere trattati efficacemente come un numero (esempio: numero di giorni, ore, minuti, ... a partire da una data stabilita)
+
+E’ quindi possibile effettuare operazioni con le date ed i tempi (differenze, sequenze,...) e se si legge un campo data e/o tempo da un file, R tenderà ad interpretarlo come `factor` e sarà necessario importarlo come stringa e poi convertirlo in un oggetto di tipo `Data`.
+
+IMPORTANTE Un oggetto tempo necessita della definizione del fuso orario di riferimento.
+
+Principali funzioni utili alla gestione delle date:
+- `as.Date()` crea un oggetto Data da un numero o da una stringa
+- `format()` formatta l’oggetto Data. ("16 febbraio 2016", "16/02/2016", "16 Feb 2016", ...)
+- `as.POSIXct()` riporta informazioni sul numero di secondi a partire dall’origine 
+- `as.POSIXlt()` riporta tutti gli attributi della data
+- `strptime()` trasforma una stringa in data
+
+Gestione dei plot
+========================================================
+Uso di `plot()`, `lines()`, `points()`, `abline()`. 
+
+I parametri per la gestione di un plot sono:
+
+- `type` definisce il tipo di oggetto da plottare (l, p, b, c, o, s, S)
+- `xlab`, ylab etichette degli assi (stringa)
+- `xlim`, `ylim` valori minimi e massimi degli assi c(min, max)
+- `main` titolo (stringa)
+- `asp` rapporto tra gli assi (numerico)
+
+Gestione dei plot
+========================================================
+Tutti i parametri relativi al set grafico possono essere impostati con par() all’interno del comando plot o prima del comando plot (margini, assi, sfondo, colori per etichette e titolo). Le impostazioni comuni riguardano:
+
+- `lwd` spessore della linea,
+- `lty` tipo di linea,
+- `pch` tipo di punto,
+- `cex` grandezza del punto
+- `col` colore dell’oggetto plottato
+- `log` scala logaritmica per gli assi (x, y, xy)
+- `xaxt`, yaxt esclude il plot degli assi (assi vuoti)
+- `mar` margini esterni del plot
+- `mfrow`, `mfcol` per avere più grafici nella stessa finestra disposti su più righe o colonne
+
+========================================================
+E’ possibile incapsulare i grafici in tabelle attraverso layout() che consente di definire una tabella con n righe e m colonne di altezza e larghezza definite.
+
+I colori possono essere richiamati attraverso:
+* etichette (blue, red, green, lightgrey), colors() per tutti i possibili colori
+* numeri da 1 a 8 (nero, rosso, verde, blu, ciano, magenta, giallo, grigio) il 9 coincide con 1
+* in rgb definendo i livelli di rosso, blu, verde e trasparenza tra 0 e 255
+* in hex (tipo # ffaa00)
+
+altre codifiche usando specifiche librerie
+utilizzando le palette di colori preimpostate grey(), heat.colors(), rainbow()
+- Applicare il comando plot ad un dataframe crea una matrice di grafici con tutte le
+coppie di variabili possibili
+- Tipi di grafici che si possono ottenere https://www.r-graph-gallery.com/all-graphs/
+
+Funzioni utili
+========================================================
+
+array() permette di costruire strutture a due (matrici) o più dimensioni array(1:12, dim=c(2,3,2))
+
+Le funzioni `apply()`, `lapply()`, `sapply()`, `tapply()` consentono di evitare cicli `for`, restituendo il valore di una qualsiasi funzione applicata alla singola dimensione di una struttura:
+- `apply` si utilizza per array o matrici
+- `lapply` si utilizza per liste e restituisce una lista
+- `sapply` si utilizza per liste e restituisce un oggetto semplice
+- `tapply` si utilizza per vettori i cui elementi sono raggruppabili in base a fattori
+
+`merge()` ricongiunge due dataframe sulla base di elementi (colonne) comuni
+
+Dati mancanti
+========================================================
+
+I dati mancanti vengono identificati in R con il valore logico NA. 
+Se il file di input presenta una codifica diversa (es. ND) per i dati mancanti occorre definire il parametro `na.strings = "ND"` in `read.table()`
+
+`is.na()` restituisce una valore logico TRUE/FALSE se l’oggetto richiamato è mancante/osservato
+
+La presenza di dati mancanti influenza le analisi, anche quelli più semplici. Ad esempio la media di elementi di un vettore in cui è presente almeno un dato mancante è NA, occorre inserire il parametro na.rm=TRUE nel calcolo dei principali indici di posizione
+
+`na.omit()` consente di omettere i profili contenenti dati mancanti
+
+IMPORTANTE non sempre la soluzione è ignorare i dati mancanti
+
+Grafico di dispersione o scatterplot
+========================================================
+
+```{r, fig.align='center'}
+x <- c(2,3,4,2,5,4,5,3,4,1)
+y <- c(5,4,3,6,2,5,3,5,3,3)
+plot(x, y)
+```
+
+========================================================
+
+```{r, fig.align='center'}
+plot(x, y, axes = F)
+axis(1, c(mean(x),0:6), c(expression(bar(x)), 0:6))
+axis(2, c(mean(y),0:6), c(expression(bar(y)), 0:6))
+box()
+lines(c(2,2,0),c(0,5,5), lty=2)
+points(2,5, pch = 3, cex = 3, col = 'red', lty = 2)
+lines(c(3.3,3.3,0), c(0,3.9,3.9), lty=3)
+text(3.6,3.9, expression((list(bar(x)[n], bar(y)[n]))))
+points(mean(x), mean(y), pch=4, cex=3, col='red')
+```
+
+Covarianza e correlazione
+========================================================
+
+```{r}
+cov(x,y)
+cor(x,y)
+```
+
+Sintesi dei comandi
+========================================================
+
+- axis Aggiunge un asse su un plotesistente
+- box Aggiunge una box attorno al plot corrente
+- points Aggiunge simboli presso specifiche coordinate
+- text Aggiunge testo presso specifiche coordinate
+- expression Introduce notazione matematica in un grafico
+- cov Calcola l’indice di covarianza
+- cor Calcola il coefficiente di correlazione lineare
+
+Relazione lineare tra variabili quantitative
+========================================================
+
+```{r, fig.align='center'}
+tab <- read.table('tab.txt', header = T, sep=',')
+tab
+attach(tab)
+
+```
+
+========================================================
+```{r, fig.align='center'}
+plot(eta, PAS)
+cor(eta, PAS)
+```
+
+========================================================
+```{r}
+model <- lm(PAS ~ eta)
+lm(formula = PAS ~ eta)
+predict(model, data.frame (eta = 20))
+
+```
+***
+```{r}
+plot(eta, PAS)
+abline(model, PAS = 'red', lwd = 2)
+formula <- bquote(
+  paste( 
+  y[i], 
+  "=", 
+  .(round(model$coefficients[1], 3)), 
+  "+", 
+  .(round(model$coefficients[2], 3)), 
+  x[i]
+  ))
+text(40,160,  formula )
+```
+
+========================================================
+```{r, fig.width=6}
+ye <- predict(model, data.frame (eta=6))
+plot(model)
+```
+L’andamento dei residui non deve presentare regolarità e deve variare intorno allo 0
+
+Bontà dell’adattamento
+========================================================
+
+Un buon modello si adatta bene ai dati se $R^2$ prossimo ad uno (> 0.7)
+```{r}
+summary(model)
+# lm(formula = PAS ~ eta)
+```
+
+Bande di confidenza e di previsione
+========================================================
+Bande di confidenza = forniscono un’indicazione sulla qualità della retta di regressione
+Bandi di previsione = esprimono l’attendibilità previsiva della retta di regressione
+
+```{r}
+data(cars)
+attach(cars)
+mod <- lm(dist ~speed)
+pc <- predict(mod,interval='confidence') # bande di confidenza
+pp <- predict(mod,interval='predict') # bande di previsione
+```
+***
+```{r}
+plot(speed,dist)
+abline(mod)
+matlines(speed, pc[,2:3], lty=3:3, col=1:1, lwd=2:2)
+matlines(speed, pp[,2:3], lty=2:2, col=1:1, lwd=3:3)
+```
+
+Sintesi dei comandi R
+========================================================
+
+- read.table Importare un file di testo
+- attach Accesso ad un database specifico
+- lm Modello di regressione lineare
+- abline Aggiunge linee rette ad un plot
+- predict Restituisce i valori predetti da un modello
+- matlines Plotta un vettore(in ascissa) rispetto alle colonne di una matrice
+
+
+========================================================
+Per un’analisi di regressione:
+- Decidere chi è la variabile dipendente Y e quale quella indipendente X nel modello Y=a+bX
+- Rappresentare i dati con un grafico di dispersione `plot(x,y)`
+- Se i dati non appaiono allineati provare ad effettuare cambiamenti di scala
+- Calcolare l’indice di correlazione `cor(x,y)` e valutare il risultato
+- Calcolare i valori dei coefficienti della retta di regressione `lm(y ~ x)`
+- Tracciare il grafico dei residui `plot(lm(y ~ x))` e valutare l’andamento
+- Tracciare la retta di regressione `abline(lm(y ~ x))` e valutare R2
+- Utilizzare con attenzione il modello per fare previsioni
+
+Relazione lineare tra variabili quantitative
+========================================================
+Regressione non parametrica $y=f(x)$ dove f non nota
+```{r}
+data(cars)
+attach(cars)
+plot(speed,dist)
+
+```
+
+========================================================
+
+```{r, fig.width=6}
+modell <- lm(speed~dist)
+plot(modell)
+```
+
+========================================================
+```{r}
+summary(modell)
+```
+
+========================================================
+
+```{r, fig.width=14, fig.align='center'}
+par(mfrow=c(1,2))
+plot(speed,dist)
+lines(ksmooth(speed,dist,'normal',bandwidth=2))
+lines(ksmooth(speed,dist,'normal',bandwidth=5),lty=3)
+lines(ksmooth(speed,dist,'normal',bandwidth=10),lty=4)
+plot(speed,dist)
+lines(lowess(cars)) # f di default è pari a 2/3
+lines(lowess(cars,f=.2),lty=3)
+
+```
+
+Sintesi dei comandi R
+========================================================
+- ksmooth Stimatore kernel di regressione (Nadaraya Watson)
+- lowess Regressione polinomiale locale
